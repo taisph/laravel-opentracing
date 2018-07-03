@@ -1,0 +1,27 @@
+{
+  "name": "taisph/laravel-opentracing",
+  "description": "",
+  "type": "library",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Tais P. Hansen",
+      "email": "tais.hansen@gmail.com"
+    }
+  ],
+  "require": {
+    "illuminate/support": "~5.4.36",
+    "opentracing/opentracing": "^1.0.0-beta5",
+    "paragonie/random_compat": "^2"
+  },
+  "autoload": {
+    "psr-4": {
+      "LaravelOpenTracing\\": "src/"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

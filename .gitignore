@@ -1,0 +1,7 @@
+# IntelliJ
+/.idea
+/*.iml
+/.phpstorm_helpers/
+
+# Composer
+/vendor/
