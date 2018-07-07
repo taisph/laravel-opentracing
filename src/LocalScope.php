@@ -1,4 +1,10 @@
 <?php
+/**
+ * Copyright 2018 Tais P. Hansen
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace LaravelOpenTracing;
 
@@ -23,9 +29,6 @@ final class LocalScope implements Scope
         $this->finishSpanOnClose = $finishSpanOnClose;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function close()
     {
         if ($this->finishSpanOnClose) {
@@ -35,9 +38,6 @@ final class LocalScope implements Scope
         $this->scopeManager->deactivate($this);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSpan()
     {
         return $this->span;

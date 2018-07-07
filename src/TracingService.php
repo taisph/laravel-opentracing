@@ -1,4 +1,10 @@
 <?php
+/**
+ * Copyright 2018 Tais P. Hansen
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace LaravelOpenTracing;
 
@@ -24,6 +30,8 @@ class TracingService
     }
 
     /**
+     * Wraps a call in a trace span.
+     *
      * @param \Closure $callable
      * @param $operationName
      * @param array|StartSpanOptions $options
@@ -43,6 +51,8 @@ class TracingService
     }
 
     /**
+     * Starts a new trace span.
+     *
      * @param $operationName
      * @param array|StartSpanOptions $options
      * @return \OpenTracing\Scope
@@ -55,6 +65,8 @@ class TracingService
     }
 
     /**
+     * Ends the specified or last started trace span.
+     *
      * @param Scope|null $scope
      */
     public function endTrace($scope = null)
