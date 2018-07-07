@@ -1,4 +1,10 @@
 <?php
+/**
+ * Copyright 2018 Tais P. Hansen
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace LaravelOpenTracing;
 
@@ -23,26 +29,17 @@ final class LocalTracer implements Tracer
         $this->scopeManager = new LocalScopeManager();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getActiveSpan()
     {
         $activeScope = $this->scopeManager->getActive();
         return $activeScope ? $activeScope->getSpan() : null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getScopeManager()
     {
         return $this->scopeManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function startSpan($operationName, $options = [])
     {
         $options = $this->asStartSpanOptions($options);
@@ -59,9 +56,6 @@ final class LocalTracer implements Tracer
         return $span;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function startActiveSpan($operationName, $options = [])
     {
         $options = $this->asStartSpanOptions($options);
@@ -73,30 +67,25 @@ final class LocalTracer implements Tracer
         return $this->scopeManager->activate($span, $options->shouldFinishSpanOnClose());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function inject(SpanContext $spanContext, $format, &$carrier)
     {
+        // TODO
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function extract($format, $carrier)
     {
+        // TODO
         return LocalSpanContext::create();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function flush()
     {
         $this->spans = [];
     }
 
     /**
+     * Converts array to options class if necessary.
+     *
      * @param array|StartSpanOptions $options
      * @return StartSpanOptions
      */

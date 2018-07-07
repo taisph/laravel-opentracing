@@ -1,4 +1,10 @@
 <?php
+/**
+ * Copyright 2018 Tais P. Hansen
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace LaravelOpenTracing;
 
@@ -49,25 +55,16 @@ final class LocalSpan implements Span
         $this->context = $context;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getOperationName()
     {
         return $this->operationName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getContext()
     {
         return $this->context;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function finish($finishTime = null)
     {
         $this->warnIfFinished();
@@ -75,9 +72,6 @@ final class LocalSpan implements Span
         $this->finishTime = $this->getUnixTimestamp($finishTime);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function overwriteOperationName($newOperationName)
     {
         $this->warnIfFinished();
@@ -85,9 +79,6 @@ final class LocalSpan implements Span
         $this->operationName = (string)$newOperationName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setTag($key, $value)
     {
         $this->warnIfFinished();
@@ -95,9 +86,6 @@ final class LocalSpan implements Span
         $this->tags[$key] = $value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function log(array $fields = [], $timestamp = null)
     {
         $this->warnIfFinished();
@@ -108,9 +96,6 @@ final class LocalSpan implements Span
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addBaggageItem($key, $value)
     {
         $this->warnIfFinished();
@@ -118,9 +103,6 @@ final class LocalSpan implements Span
         $this->context = $this->context->withBaggageItem($key, $value);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBaggageItem($key)
     {
         return $this->context->getBaggageItem($key);

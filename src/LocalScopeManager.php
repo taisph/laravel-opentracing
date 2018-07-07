@@ -1,4 +1,10 @@
 <?php
+/**
+ * Copyright 2018 Tais P. Hansen
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace LaravelOpenTracing;
 
@@ -12,9 +18,6 @@ final class LocalScopeManager implements ScopeManager
      */
     private $scopes = [];
 
-    /**
-     * {@inheritdoc}
-     */
     public function activate(Span $span, $finishSpanOnClose)
     {
         $scope = new LocalScope($this, $span, $finishSpanOnClose);
@@ -22,16 +25,15 @@ final class LocalScopeManager implements ScopeManager
         return $scope;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getActive()
     {
         return end($this->scopes);
     }
 
     /**
-     * {@inheritdoc}
+     * Deactivate a span.
+     *
+     * @param LocalScope $scope
      */
     public function deactivate(LocalScope $scope)
     {
