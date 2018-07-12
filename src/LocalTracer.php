@@ -40,6 +40,11 @@ final class LocalTracer implements Tracer
         return $this->scopeManager;
     }
 
+    /**
+     * @param string $operationName
+     * @param array|\OpenTracing\StartSpanOptions $options
+     * @return LocalSpan|\OpenTracing\Span
+     */
     public function startSpan($operationName, $options = [])
     {
         $options = $this->asStartSpanOptions($options);
@@ -54,6 +59,11 @@ final class LocalTracer implements Tracer
         return $span;
     }
 
+    /**
+     * @param string $operationName
+     * @param array|\OpenTracing\StartSpanOptions $options
+     * @return LocalScope|\OpenTracing\Scope
+     */
     public function startActiveSpan($operationName, $options = [])
     {
         $options = $this->asStartSpanOptions($options);
