@@ -26,17 +26,24 @@ class TracingJobPipe
     private $service;
 
     /**
+     * @var Tracer
+     */
+    private $tracer;
+
+    /**
      * @var array
      */
     private $options;
 
     /**
      * @param TracingService $service
+     * @param Tracer $tracer
      * @param array|StartSpanOptions $options
      */
-    public function __construct(TracingService $service, $options = [])
+    public function __construct(TracingService $service, Tracer $tracer, $options = [])
     {
         $this->service = $service;
+        $this->tracer = $tracer;
         $this->options = $options;
     }
 
@@ -55,7 +62,7 @@ class TracingJobPipe
             get_class($job),
             $this->options
         );
-        app(Tracer::class)->flush();
+        $this->tracer->flush();
         return $res;
     }
 }
