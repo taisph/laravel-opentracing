@@ -3,6 +3,8 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/taisph/laravel-opentracing.svg?style=flat-square)](https://packagist.org/packages/taisph/laravel-opentracing)
 [![Latest Stable Version](https://img.shields.io/packagist/v/taisph/laravel-opentracing.svg?style=flat-square)](https://packagist.org/packages/taisph/laravel-opentracing)
 [![StyleCI](https://github.styleci.io/repos/139591541/shield?style=flat-square&branch=develop)](https://github.styleci.io/repos/139591541)
+[![Build Status](https://img.shields.io/travis/taisph/laravel-opentracing/master.svg?style=flat-square)](https://travis-ci.org/taisph/laravel-opentracing)
+[![Coverage Status](https://img.shields.io/coveralls/github/taisph/laravel-opentracing/master.svg?style=flat-square)](https://coveralls.io/github/taisph/laravel-opentracing?branch=develop)
 
 Reference implementation of the OpenTracing API for Laravel including a server-less local tracer for application
 logging purposes.
@@ -131,6 +133,10 @@ app(\Illuminate\Bus\Dispatcher::class)->pipeThrough([
     \LaravelOpenTracing\TracingJobPipe::class,
 ]);
 ```
+
+## Testing
+
+docker run --rm -it -v $(pwd):/app php:5.6-cli-alpine /bin/sh -c 'apk add --no-cache $PHPIZE_DEPS && pecl install xdebug-2.5.5 && cd app && php -dzend_extension=xdebug.so vendor/bin/phpunit'
 
 ## About
 
