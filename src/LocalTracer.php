@@ -45,11 +45,9 @@ final class LocalTracer implements Tracer
         $options = $this->asStartSpanOptions($options);
 
         $references = $options->getReferences();
-        if (empty($references)) {
-            $spanContext = LocalSpanContext::createAsRoot();
-        } else {
-            $spanContext = LocalSpanContext::createAsChildOf($references[0]->getContext());
-        }
+        $spanContext = empty($references)
+            ? LocalSpanContext::createAsRoot()
+            : LocalSpanContext::createAsChildOf($references[0]->getContext());
 
         $span = new LocalSpan($operationName, $spanContext);
         $this->spans[] = $span;
