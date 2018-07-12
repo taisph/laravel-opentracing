@@ -5,3 +5,6 @@
 
 # Composer
 /vendor/
+
+# Test
+/build
