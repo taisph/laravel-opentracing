@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "illuminate/support": "~5.4.36",
+    "illuminate/support": ">=5.4.36 <5.9.0",
     "opentracing/opentracing": "^1.0.0-beta5",
     "paragonie/random_compat": "^2"
   },
