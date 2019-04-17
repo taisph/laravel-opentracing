@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2018 Tais P. Hansen
+ * Copyright 2019 Tais P. Hansen
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -8,6 +8,7 @@
 
 namespace LaravelOpenTracing\Log\Processor;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use OpenTracing\Span;
 use OpenTracing\Tracer;
 
@@ -36,7 +37,12 @@ class LocalTracerProcessor
         /** @var \LaravelOpenTracing\LocalSpan $span */
         $span = null;
         if ($tracer = app(Tracer::class)) {
-            $span = $tracer->getActiveSpan() ?: app(Span::class);
+            /** @var Tracer $tracer */
+            try {
+                $span = $tracer->getActiveSpan() ?: app(Span::class);
+            } catch (BindingResolutionException $e) {
+                // Ignore.
+            }
         }
 
         if ($span) {

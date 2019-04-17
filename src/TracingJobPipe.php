@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2018 Tais P. Hansen
+ * Copyright 2019 Tais P. Hansen
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -40,7 +40,7 @@ class TracingJobPipe
      * @param Tracer $tracer
      * @param array|StartSpanOptions $options
      */
-    public function __construct(TracingService $service, Tracer $tracer, $options = [])
+    public function __construct(TracingService $service, Tracer $tracer, $options = null)
     {
         $this->service = $service;
         $this->tracer = $tracer;
@@ -56,10 +56,10 @@ class TracingJobPipe
     public function handle($job, \Closure $next)
     {
         $res = $this->service->trace(
-            function () use ($next, $job) {
+            'job.' . strtolower(str_replace('\\', '.', get_class($job))),
+            static function () use ($next, $job) {
                 return $next($job);
             },
-            get_class($job),
             $this->options
         );
         $this->tracer->flush();
