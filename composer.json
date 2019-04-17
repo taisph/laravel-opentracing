@@ -1,6 +1,10 @@
 {
   "name": "taisph/laravel-opentracing",
   "description": "",
+  "keywords": [
+    "opentracing",
+    "laravel"
+  ],
   "type": "library",
   "license": "Apache-2.0",
   "authors": [
@@ -10,13 +14,31 @@
     }
   ],
   "require": {
-    "illuminate/support": "~5.4.36",
+    "php": ">=5.6",
+    "illuminate/support": "^5.4.36",
+    "jonahgeorge/jaeger-client-php": "dev-feature/php56",
     "opentracing/opentracing": "^1.0.0-beta5",
-    "paragonie/random_compat": "^2"
+    "paragonie/random_compat": "^2",
+    "psr/cache": "~1.0.1"
   },
+  "require-dev": {
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/taisph/jaeger-client-php"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "LaravelOpenTracing\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "LaravelOpenTracing\\TracingServiceProvider"
+      ]
     }
   },
   "config": {

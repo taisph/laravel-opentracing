@@ -8,13 +8,38 @@ Reference implementation of the OpenTracing API for Laravel including a server-l
 logging purposes.
 
 See [OpenTracing](http://opentracing.io/) for more information.
- 
+
+## Supported Clients
+
+Currently supported clients:
+
+- Local: No-op tracer used mainly for adding trace ids to logs.
+- Jaeger: open source, end-to-end distributed tracing. See [Jaeger](https://www.jaegertracing.io/) and
+    Jonah George's [Jaeger Client PHP](https://github.com/jonahgeorge/jaeger-client-php).
+
+Note that a patched version of Jaeger Client PHP is currently required to retain PHP 5.6 support. If you need that in
+your application, add the config below to your `composer.json` file in the `repositories` section.
+
+```json
+{
+    "type": "vcs",
+    "url": "https://github.com/taisph/jaeger-client-php"
+}
+```
+
 ## Installation
 
 Install the latest version using:
 
 ```bash
 composer require taisph/laravel-opentracing
+```
+
+Copy the default configuration file to your application if you want to change it by running the command below. Note
+that you have to use `--force` if the file already exists.
+
+```bash
+php artisan vendor:publish --provider="LaravelOpenTracing\TracingServiceProvider"
 ```
 
 ## Basic Usage
@@ -44,7 +69,58 @@ $app->configureMonologUsing(function (\Monolog\Logger $logger) {
 return $app;
 ```
 
-### Tracing jobs
+### Tracing
+
+To trace a specific process in your application you can wrap the process in a trace closure like below. This will take
+care of starting a new trace span and closing it again when the closure either returns or throws.
+
+```php
+$items = app(\LaravelOpenTracing\TracingService::class)->trace(
+    'todo.get_list_items',
+    function () {
+        return \App\Models\TodoListItem::get();
+    }
+);
+```
+
+Nested traces are also possible like below. It will automatically take care of the span child/parent relations.
+
+```php
+function a() {
+    // We don't care about tracing this specifically.
+    doSomething();
+
+    app(\LaravelOpenTracing\TracingService::class)->trace(
+        'app.do_something_else',
+        function () {
+            doSomethingElse();
+        }
+    );
+}
+
+app(\LaravelOpenTracing\TracingService::class)->trace(
+    'app.do_stuff',
+    function () {
+        a();
+    }
+);
+```
+
+If you want to add context information or tags to your spans, it is possible like below.
+
+```php
+$title = 'Make more coffee';
+
+$item = app(\LaravelOpenTracing\TracingService::class)->trace(
+    'todo.store_item',
+    function () use ($title) {
+        return \App\Models\TodoListItem::create(['title' => $title]);
+    },
+    ['tags' => ['title' => $title]]
+);
+```
+
+### Tracing Jobs
 
 Configure your dispatcher to pipe jobs through the tracing pipe. This is similar to middleware, only for jobs.
 

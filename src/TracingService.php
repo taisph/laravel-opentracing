@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2018 Tais P. Hansen
+ * Copyright 2019 Tais P. Hansen
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -38,13 +38,11 @@ class TracingService
      * @return mixed
      * @throws \Exception
      */
-    public function trace(\Closure $callable, $operationName, $options = [])
+    public function trace($operationName, \Closure $callable, $options = null)
     {
         $scope = $this->beginTrace($operationName, $options);
         try {
             return $callable();
-        } catch (\Exception $e) {
-            throw $e;
         } finally {
             $this->endTrace($scope);
         }
@@ -57,9 +55,9 @@ class TracingService
      * @param array|StartSpanOptions $options
      * @return \OpenTracing\Scope
      */
-    public function beginTrace($operationName, $options = [])
+    public function beginTrace($operationName, $options = null)
     {
-        $scope = $this->tracer->startActiveSpan($operationName, $options);
+        $scope = $this->tracer->startActiveSpan($operationName, $options ?: []);
         $this->scopes[] = $scope;
         return $scope;
     }
