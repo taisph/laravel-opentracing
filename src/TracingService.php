@@ -8,6 +8,7 @@
 
 namespace LaravelOpenTracing;
 
+use Illuminate\Http\Request;
 use OpenTracing\Scope;
 use OpenTracing\StartSpanOptions;
 use OpenTracing\Tracer;
@@ -78,5 +79,45 @@ class TracingService
         foreach ($keys as $key) {
             unset($this->scopes[$key]);
         }
+    }
+
+    /**
+     * Injects active span context into carrier.
+     *
+     * @return array
+     */
+    public function getInjectHeaders()
+    {
+        $carrier = [];
+        if (($span = $this->tracer->getActiveSpan()) !== null) {
+            $this->tracer->inject(
+                $span->getContext(),
+                \OpenTracing\Formats\HTTP_HEADERS,
+                $carrier
+            );
+        }
+        return $carrier;
+    }
+
+    /**
+     * Extract span context from request.
+     *
+     * @param Request $request
+     * @return \OpenTracing\SpanContext|null
+     */
+    public function extractFromHttpRequest(Request $request)
+    {
+        return $this->tracer->extract(
+            \OpenTracing\Formats\HTTP_HEADERS,
+            array_map(
+                static function ($v) {
+                    if (is_array($v) && count($v) === 1) {
+                        return $v[0];
+                    }
+                    return $v;
+                },
+                $request->header()
+            )
+        );
     }
 }

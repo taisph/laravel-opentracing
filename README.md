@@ -134,6 +134,45 @@ app(\Illuminate\Bus\Dispatcher::class)->pipeThrough([
 ]);
 ```
 
+### Tracing Across Service Boundaries
+
+Trace contexts can easily be used across services. If your application starts a tracing context, that context can be
+carried over HTTP to another service with an OpenTracing compatible implementation.
+
+To automatically accept trace contexts from other services, add the tracing middleware to your application by adding it
+to your `app/Http/Kernel.php` file like below:
+
+```php
+<?php
+
+class Kernel extends HttpKernel
+{
+    protected $middleware = [
+        \LaravelOpenTracing\Http\Middleware\Tracing::class,
+    ];
+}
+```
+
+Assuming your application uses GuzzleHttp for sending requests to external services, you can use the provided tracing
+handler when creating the client like below. This will automatically send the necessary trace context headers with the
+HTTP request to the external service.
+
+```php
+<?php
+
+new \GuzzleHttp\Client(
+    [
+        'handler' => new \LaravelOpenTracing\TracingHandlerStack(),
+        'headers' => [
+            'cache-control' => 'no-cache',
+            'content-type' => 'application/json',
+        ],
+        'base_uri' => 'http://localhost/api/myservice',
+        'http_errors' => false
+    ]
+);
+```
+
 ## Testing
 
 docker run --rm -it -v $(pwd):/app php:5.6-cli-alpine /bin/sh -c 'apk add --no-cache $PHPIZE_DEPS && pecl install xdebug-2.5.5 && cd app && php -dzend_extension=xdebug.so vendor/bin/phpunit'

@@ -11,6 +11,7 @@ namespace LaravelOpenTracing\Tests;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Foundation\Application;
+use LaravelOpenTracing\TracingHandlerStack;
 use LaravelOpenTracing\TracingService;
 use LaravelOpenTracing\TracingServiceProvider;
 use Mockery;
