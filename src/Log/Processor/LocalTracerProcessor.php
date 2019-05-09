@@ -10,6 +10,7 @@ namespace LaravelOpenTracing\Log\Processor;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use OpenTracing\Span;
+use OpenTracing\SpanContext;
 use OpenTracing\Tracer;
 
 /**
@@ -34,7 +35,7 @@ class LocalTracerProcessor
 {
     public function __invoke(array $record)
     {
-        /** @var \LaravelOpenTracing\LocalSpan $span */
+        /** @var Span $span */
         $span = null;
         if ($tracer = app(Tracer::class)) {
             /** @var Tracer $tracer */
@@ -47,11 +48,25 @@ class LocalTracerProcessor
 
         if ($span) {
             $context = $span->getContext();
-            $record['extra']['trace_id'] = $context->getTraceId();
-            $record['extra']['span_id'] = $context->getSpanId();
             $record['extra']['span_name'] = $span->getOperationName();
+            $record['extra'] += $this->getContextIds($context);
         }
 
         return $record;
+    }
+
+    /**
+     * Get trace and span ids from context.
+     *
+     * @param SpanContext $context
+     * @return array
+     */
+    private function getContextIds(SpanContext $context)
+    {
+        switch (get_class($context)) {
+            case \Jaeger\SpanContext::class:
+                return ['trace_id' => dechex($context->getTraceId()), 'span_id' => dechex($context->getSpanId())];
+        }
+        return ['trace_id' => $context->getTraceId(), 'span_id' => $context->getSpanId()];
     }
 }
