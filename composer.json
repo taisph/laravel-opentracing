@@ -17,7 +17,6 @@
     "php": ">=5.6",
     "guzzlehttp/guzzle": "^6.2",
     "illuminate/support": "^5.0",
-    "jonahgeorge/jaeger-client-php": "dev-feature/php56",
     "opentracing/opentracing": "^1.0.0-beta5",
     "paragonie/random_compat": "^2",
     "psr/cache": "~1.0.1"
@@ -49,6 +48,9 @@
         "LaravelOpenTracing\\TracingServiceProvider"
       ]
     }
+  },
+  "suggest": {
+    "jonahgeorge/jaeger-client-php": "dev-feature/php56"
   },
   "config": {
     "sort-packages": true
