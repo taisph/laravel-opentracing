@@ -82,8 +82,7 @@ final class LocalTracer implements Tracer
 
     public function extract($format, $carrier)
     {
-        // TODO
-        return LocalSpanContext::create();
+        return LocalSpanContext::createAsRoot($true, $carrier);
     }
 
     public function flush()

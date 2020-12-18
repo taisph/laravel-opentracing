@@ -18,7 +18,7 @@ final class LocalScopeManager implements ScopeManager
      */
     private $scopes = [];
 
-    public function activate(Span $span, $finishSpanOnClose)
+    public function activate(Span $span, $finishSpanOnClose = self::DEFAULT_FINISH_SPAN_ON_CLOSE)
     {
         $scope = new LocalScope($this, $span, $finishSpanOnClose);
         $this->scopes[] = $scope;
