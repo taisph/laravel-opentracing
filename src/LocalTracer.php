@@ -77,12 +77,18 @@ final class LocalTracer implements Tracer
 
     public function inject(SpanContext $spanContext, $format, &$carrier)
     {
-        // TODO
+        $carrier['x-trace-id'] =  $this->getActiveSpan()->getTraceId();
+        $carrier['x-span-id'] =  $this->getActiveSpan()->getSpanId();
     }
 
     public function extract($format, $carrier)
     {
-        return LocalSpanContext::createAsRoot($true, $carrier);
+        if (array_key_exists('x-trace-id', $carrier)) {
+            $root = new LocalSpanContext($carrier['x-trace-id'], $carrier['x-span-id'], true, $carrier);
+            return LocalSpanContext::createAsChildOf($root);
+        }
+
+        return LocalSpanContext::createAsRoot(true, $carrier);
     }
 
     public function flush()
