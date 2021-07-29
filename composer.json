@@ -18,7 +18,7 @@
     "guzzlehttp/guzzle": "^6.2",
     "illuminate/support": "^5.4.36",
     "jonahgeorge/jaeger-client-php": "dev-feature/php56",
-    "opentracing/opentracing": "^1.0.0-beta5",
+    "opentracing/opentracing": "1.0.0-beta6",
     "paragonie/random_compat": "^2",
     "psr/cache": "~1.0.1"
   },
