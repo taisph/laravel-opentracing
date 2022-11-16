@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8c9967852b192681ceab1314f0c5d5b3",
+    "content-hash": "9a6be45e1441403d0a9bd9a70a053341",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -874,13 +874,13 @@
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "OpenTracing\\": "src/OpenTracing/"
-                },
                 "files": [
                     "src/OpenTracing/Tags.php",
                     "src/OpenTracing/Formats.php"
-                ]
+                ],
+                "psr-4": {
+                    "OpenTracing\\": "src/OpenTracing/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -893,6 +893,10 @@
                 }
             ],
             "description": "OpenTracing API for PHP",
+            "support": {
+                "issues": "https://github.com/opentracing/opentracing-php/issues",
+                "source": "https://github.com/opentracing/opentracing-php/tree/1.0.0-beta6"
+            },
             "time": "2019-04-10T07:57:39+00:00"
         },
         {
@@ -4741,5 +4745,5 @@
         "php": ">=5.6"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.3.0"
 }

@@ -17,7 +17,7 @@
     "php": ">=5.6",
     "guzzlehttp/guzzle": ">6.2",
     "illuminate/support": ">5.0",
-    "opentracing/opentracing": "^1.0.0",
+    "opentracing/opentracing": "1.0.0-beta6",
     "paragonie/random_compat": "^1.4|^2.0|^9.0",
     "psr/cache": "~1.0.1"
   },
@@ -53,7 +53,10 @@
     "jonahgeorge/jaeger-client-php": "dev-feature/php56"
   },
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "kylekatarnls/update-helper": true
+    }
   },
   "minimum-stability": "dev",
   "prefer-stable": true
